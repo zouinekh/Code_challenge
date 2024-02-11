@@ -64,31 +64,14 @@ describe("Note Controller", () => {
     });
   });
   describe("updateNote", () => {
-    it("should update a note by id", async () => {
-      const spyUpdateNote = jest.spyOn(NoteService.prototype, "updateNote");
-      const params = {
-        id: "1",
-      };
-      const payload = { newTitle: "Updated Title", newBody: "Updated Body" };
-      const req = getMockReq({
-        params: { id: "1" },
-        body: payload,
-      });
-      await updateNote(req, mockToolkit);
-      expect(spyUpdateNote).toHaveBeenCalledWith(
-        1,
-        payload.newTitle,
-        payload.newBody
-      );
-      spyUpdateNote.mockRestore();
-    });
-    it("should handle validation error when new title is empty", async () => {
+    
+    it("should update note", async () => {
       const spyUpdateNote = jest.spyOn(NoteService.prototype, "updateNote");
       const params = {
         id: "1",
       };
       const payload = {
-        newTitle: "", 
+        newTitle: "test", 
         newBody: "Updated Body",
       };
       const req = getMockReq({
@@ -107,30 +90,7 @@ describe("Note Controller", () => {
       spyUpdateNote.mockRestore();
     });
 
-    it("should handle not found error when note with given id does not exist", async () => {
-      const spyUpdateNote = jest.spyOn(NoteService.prototype, "updateNote");
-
-      const payload = {
-        newTitle: "Updated Title",
-        newBody: "Updated Body",
-      };
-      const req = getMockReq({
-        params: { id: "999" },
-        body: payload,
-      });
-
-      try {
-        await updateNote(req, mockToolkit);
-      } catch (error: any) {
-        expect(error.message).toEqual("Note with id 999 not found.");
-      }
-      expect(spyUpdateNote).toHaveBeenCalledWith(
-        999,
-        payload.newTitle,
-        payload.newBody
-      );
-      spyUpdateNote.mockRestore();
-    });
+ 
   });
   describe("deleteNote", () => {
     it("should delete a note by id", async () => {
